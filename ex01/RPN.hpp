@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
+/*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/19 23:06:47 by lbohm             #+#    #+#             */
-/*   Updated: 2025/01/21 20:50:59 by lucabohn         ###   ########.fr       */
+/*   Created: 2025/01/21 21:10:41 by lbohm             #+#    #+#             */
+/*   Updated: 2025/01/21 23:06:47 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BITCOINEXCHANGE_HPP
-# define BITCOINEXCHANGE_HPP
+#ifndef RPN_HPP
+# define RPN_HPP
 
-# include <iostream>
 # include <string>
-# include <map>
+# include <stack>
 # include <regex>
-# include <fstream>
 
-class BitcoinExchange
+class RPN
 {
 	private:
-		std::multimap<std::string, std::string>	data;
+		std::string		input;
+		int				result;
 	public:
-		BitcoinExchange(void);
-		BitcoinExchange(std::string file);
-		BitcoinExchange(const BitcoinExchange &cpy);
-		BitcoinExchange	&operator= (const BitcoinExchange &cpy);
-		~BitcoinExchange(void);
-		void	showList(void) const;
-		void	checkPrice(void) const;
+		RPN(void);
+		RPN(std::string input);
+		RPN(const RPN &cpy);
+		RPN	&operator= (const RPN &cpy);
+		~RPN(void);
+		int	calcRPN(void);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/01/20 23:30:06 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/01/21 20:52:23 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ BitcoinExchange::BitcoinExchange(std::string file)
 			this->data.insert(std::pair<std::string, std::string>(date, nbr));
 		}
 		else
-			this->data.insert(std::pair<std::string, std::string>(line, "nan"));
+			this->data.insert(std::pair<std::string, std::string>(line, ""));
 	}
 }
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &cpy)
@@ -59,4 +59,9 @@ void	BitcoinExchange::showList(void) const
 {
 	for (std::multimap<std::string, std::string>::const_iterator it = this->data.begin(); it != this->data.end(); ++it)
 		std::cout << it->first << " : " << it->second << std::endl;
+}
+
+void	BitcoinExchange::checkPrice(void) const
+{
+	
 }
