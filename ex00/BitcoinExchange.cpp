@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/04 13:09:39 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/04 17:59:40 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,37 @@ void	BitcoinExchange::checkPrice(void) const
 			found = this->db.find(it->first);
 			if (found != this->db.end())
 			{
-				if (isInt(it->second))
+				if (!isInt(it->second))
 				{
-					if (it->second[0] == '-')
-						std::cerr << "Error: nbr is negativ" << std::endl;
-					else if (it->second.length() < 1 || it->second.length() > 4)
-						std::cerr << "Error: nbr is to big" << std::endl;
-					else
+					int1 = std::stoi(it->second);
+					if (!isInt(found->second))
 					{
-						int1 = std::stoi(it->second);
-						if (isInt(found->second))
-							int2 = std::stoi(found->second);
+						int2 = std::stoi(found->second);
 						std::cout << it->first << " => " << it->second << " = " << int1 * int2 << std::endl;
 					}
+					else if (!isFloat(found->second))
+					{
+						float2 = std::stof(found->second);
+						std::cout << it->first << " => " << it->second << " = " << float2 * int1 << std::endl;
+					}
+					else
+						std::cerr << "Error: database value is not a int or a float" << std::endl;
+				}
+				else if (!isFloat(it->second))
+				{
+					float1 = std::stof(it->second);
+					if (!isInt(found->second))
+					{
+						int2 = std::stoi(found->second);
+						std::cout << it->first << " => " << it->second << " = " << float1 * int2 << std::endl;
+					}
+					else if (!isFloat(found->second))
+					{
+						float2 = std::stof(found->second);
+						std::cout << it->first << " => " << it->second << " = " << float1 * float2 << std::endl;
+					}
+					else
+						std::cerr << "Error: database value is not a int or a float" << std::endl;
 				}
 			}
 			else
@@ -147,6 +165,16 @@ bool	isFloat(std::string input)
 		{
 			return (false);
 		}
+		if (input[0] == '-')
+		{
+			std::cerr << "Error: nbr is negative" << std::endl;
+			return (false);
+		}
+		if (input.find('.') > 4)
+		{
+			std::cerr << "Error nbr it to big" << std::endl;
+			return (false);
+		}
 		return (true);
 	}
 	return (false);
@@ -164,6 +192,16 @@ bool	isInt(std::string input)
 		}
 		catch(const std::exception& e)
 		{
+			return (false);
+		}
+		if (input[0] == '-')
+		{
+			std::cerr << "Error: nbr is negativ" << std::endl;
+			return (false);
+		}
+		else if (input.length() < 1 || input.length() > 4)
+		{
+			std::cerr << "Error: nbr is to big" << std::endl;
 			return (false);
 		}
 		return (true);
