@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:58 by lbohm             #+#    #+#             */
-/*   Updated: 2025/01/20 23:30:21 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:02:14 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	main(int argc, char **argv)
 {
-	if (argc == 2)
+	if (argc == 3)
 	{
 		try
 		{
-			BitcoinExchange	input(argv[1]);
+			BitcoinExchange	input(argv[1], argv[2]);
 
-			input.showList();
+			input.checkPrice();
 		}
 		catch(const std::exception& e)
 		{
@@ -28,6 +28,9 @@ int	main(int argc, char **argv)
 		}
 	}
 	else
+	{
 		std::cerr << "Error: Wrong nbr of Arguments" << std::endl;
+		std::cerr << "input shout look like ./btc inputfile database" << std::endl;
+	}
 	return (0);
 }
