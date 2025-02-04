@@ -6,7 +6,7 @@
 /*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/04 17:59:40 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/04 22:57:46 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ BitcoinExchange::~BitcoinExchange(void) {}
 void	BitcoinExchange::checkPrice(void) const
 {
 	std::multimap<std::string, std::string>::const_iterator	found;
-	int		int1, int2;
-	float	float1, float2;
 
 	for (std::multimap<std::string, std::string>::const_iterator it = this->input.begin(); it != this->input.end(); ++it)
 	{
@@ -63,38 +61,7 @@ void	BitcoinExchange::checkPrice(void) const
 			found = this->db.find(it->first);
 			if (found != this->db.end())
 			{
-				if (!isInt(it->second))
-				{
-					int1 = std::stoi(it->second);
-					if (!isInt(found->second))
-					{
-						int2 = std::stoi(found->second);
-						std::cout << it->first << " => " << it->second << " = " << int1 * int2 << std::endl;
-					}
-					else if (!isFloat(found->second))
-					{
-						float2 = std::stof(found->second);
-						std::cout << it->first << " => " << it->second << " = " << float2 * int1 << std::endl;
-					}
-					else
-						std::cerr << "Error: database value is not a int or a float" << std::endl;
-				}
-				else if (!isFloat(it->second))
-				{
-					float1 = std::stof(it->second);
-					if (!isInt(found->second))
-					{
-						int2 = std::stoi(found->second);
-						std::cout << it->first << " => " << it->second << " = " << float1 * int2 << std::endl;
-					}
-					else if (!isFloat(found->second))
-					{
-						float2 = std::stof(found->second);
-						std::cout << it->first << " => " << it->second << " = " << float1 * float2 << std::endl;
-					}
-					else
-						std::cerr << "Error: database value is not a int or a float" << std::endl;
-				}
+				checkNbr(it->second);
 			}
 			else
 				std::cerr << "Error: date not found => " + it->first << std::endl;
@@ -151,60 +118,50 @@ bool	checkDate(std::string date)
 	return (false);
 }
 
-bool	isFloat(std::string input)
+bool	checkNbr(std::string nbr)
 {
-	std::regex	pattern("^[+-]?\\d+\\.\\d+[fF]$|^(\\+inff|-inff|nanf)$");
+	std::regex	intPattern("^[+]?\\d{1,4}$"), floatPatern("^[+]?\\d{1,4}\\.\\d+$");
 
-	if (std::regex_match(input, pattern))
+	if (std::regex_match(nbr, intPattern) || std::regex_match(nbr, floatPatern))
 	{
-		try
-		{
-			std::stof(input);
-		}
-		catch(const std::exception& e)
-		{
-			return (false);
-		}
-		if (input[0] == '-')
-		{
-			std::cerr << "Error: nbr is negative" << std::endl;
-			return (false);
-		}
-		if (input.find('.') > 4)
-		{
-			std::cerr << "Error nbr it to big" << std::endl;
-			return (false);
-		}
+		std::cout << "is a nbr => " + nbr << std::endl;
 		return (true);
 	}
+	else if (nbr.length() > 4)
+		std::cerr << "Error: nbr is to big => " + nbr << std::endl;
+	else if (nbr[0] == '-')
+		std::cerr << "Error: nbr is negative => " + nbr << std::endl;
 	return (false);
 }
 
-bool	isInt(std::string input)
+bool	isFloat(std::string input)
 {
-	std::regex	pattern("^[+-]?\\d+$");
+	std::regex	pattern("^[+-]?\\d+(\\.\\d+)?$");
+	std::string	trimmed = input;
+	float		value = 0;
 
-	if (std::regex_match(input, pattern))
-	{
-		try
-		{
-			std::stoi(input);
-		}
-		catch(const std::exception& e)
-		{
-			return (false);
-		}
-		if (input[0] == '-')
-		{
-			std::cerr << "Error: nbr is negativ" << std::endl;
-			return (false);
-		}
-		else if (input.length() < 1 || input.length() > 4)
-		{
-			std::cerr << "Error: nbr is to big" << std::endl;
-			return (false);
-		}
-		return (true);
+	trimmed.erase(0, trimmed.find_first_not_of(" \t\n\r"));
+	trimmed.erase(trimmed.find_last_not_of(" \t\n\r") + 1);
+	if (!std::regex_match(trimmed, pattern)) {
+		return false;
 	}
-	return (false);
+	try
+	{
+		value = std::stof(trimmed);
+	}
+	catch(const std::exception& e)
+	{
+		return false;
+	}
+	if (value < 0)
+	{
+		std::cerr << "Error: number is negative => " << trimmed << std::endl;
+		return false;
+	}
+	if (value > 1000)
+	{
+		std::cerr << "Error: number is too big => " << trimmed << std::endl;
+		return false;
+	}
+	return true;
 }
