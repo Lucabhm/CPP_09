@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/05 09:50:28 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/05 11:54:08 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 		throw std::runtime_error("could not open database");
 	this->input = readFile(input, '|');
 	this->db = readFile(db, ',');
+	for (std::multimap<std::string, std::string>::iterator it = this->db.begin(); it != this->db.end(); ++it)
+	{
+		if (!checkDate(it->first))
+			throw std::runtime_error("database has wrong date");
+	}
 }
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &cpy)
@@ -62,7 +67,7 @@ void	BitcoinExchange::checkPrice(void) const
 			if (found == this->db.end() || found->first != it->first)
 				--found;
 			if (checkNbr(it->second))
-				std::cout << found->first << " => " << it->second << " = " << std::stof(it->second) * std::stof(found->second) << std::endl;
+				std::cout << it->first << " => " << it->second << " = " << std::stof(it->second) * std::stof(found->second) << std::endl;
 		}
 		else
 			std::cerr << "Error: bad input => " + it->first << std::endl;
@@ -97,7 +102,7 @@ std::multimap<std::string, std::string>	readFile(std::ifstream &input, char deli
 bool	checkDate(std::string date)
 {
 	std::regex	datePattern("^\\s*\\d{4}-\\d{2}-\\d{2}\\s*$");
-	int	dayOfMonth[] = {31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30};
+	int	dayOfMonth[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 	int	year, month, day;
 
 	if (std::regex_match(date, datePattern))
@@ -109,7 +114,7 @@ bool	checkDate(std::string date)
 			dayOfMonth[1] = 29;
 		if (month < 1 || month > 12)
 			return (false);
-		if (day < 1 || day > dayOfMonth[month])
+		if (day < 1 || day > dayOfMonth[month - 1])
 			return (false);
 		return (true);
 	}

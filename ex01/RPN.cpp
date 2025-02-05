@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/05 11:36:34 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/05 13:09:34 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,19 @@ RPN::RPN(std::string input)
 	this->input = input;
 }
 
-RPN::RPN(const RPN &cpy) {}
+RPN::RPN(const RPN &cpy)
+{
+	this->input = cpy.input;
+	this->result = cpy.result;
+}
 
 RPN	&RPN::operator= (const RPN &cpy)
 {
+	if (this != &cpy)
+	{
+		this->input = cpy.input;
+		this->result = cpy.result;
+	}
 	return (*this);
 }
 
@@ -50,19 +59,19 @@ int	RPN::calcRPN(void)
 		else if (this->input[i] == '-')
 		{
 			nbrs = getNbr(stack);
-			stack.push(nbrs.second + nbrs.first);
+			stack.push(nbrs.second - nbrs.first);
 		}
 		else if (this->input[i] == '*')
 		{
 			nbrs = getNbr(stack);
-			stack.push(nbrs.second + nbrs.first);
+			stack.push(nbrs.second * nbrs.first);
 		}
 		else if (this->input[i] == '/')
 		{
 			nbrs = getNbr(stack);
 			if (nbrs.first == 0 || nbrs.second == 0)
 				throw std::runtime_error("Error: division by 0");
-			stack.push(nbrs.second + nbrs.first);
+			stack.push(nbrs.second / nbrs.first);
 		}
 		else if (this->input[i] != ' ')
 			stack.push(this->input[i] - 48);
