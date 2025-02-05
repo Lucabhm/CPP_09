@@ -7,7 +7,7 @@ OBJSDIR = objs/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.cpp=.o))
 
 $(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -fsanitize=address
 
 $(OBJSDIR)%.o:	%.cpp
 				@mkdir -p $(dir $@)

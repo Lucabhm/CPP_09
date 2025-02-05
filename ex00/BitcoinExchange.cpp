@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/04 22:57:46 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:50:28 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,11 @@ void	BitcoinExchange::checkPrice(void) const
 	{
 		if (checkDate(it->first))
 		{
-			found = this->db.find(it->first);
-			if (found != this->db.end())
-			{
-				checkNbr(it->second);
-			}
-			else
-				std::cerr << "Error: date not found => " + it->first << std::endl;
+			found = this->db.lower_bound(it->first);
+			if (found == this->db.end() || found->first != it->first)
+				--found;
+			if (checkNbr(it->second))
+				std::cout << found->first << " => " << it->second << " = " << std::stof(it->second) * std::stof(found->second) << std::endl;
 		}
 		else
 			std::cerr << "Error: bad input => " + it->first << std::endl;
@@ -121,10 +119,17 @@ bool	checkDate(std::string date)
 bool	checkNbr(std::string nbr)
 {
 	std::regex	intPattern("^[+]?\\d{1,4}$"), floatPatern("^[+]?\\d{1,4}\\.\\d+$");
+	float		value;
 
 	if (std::regex_match(nbr, intPattern) || std::regex_match(nbr, floatPatern))
 	{
-		std::cout << "is a nbr => " + nbr << std::endl;
+		value = std::stof(nbr);
+
+		if (value > 1000)
+		{
+			std::cerr << "Error: nbr is to big => " + nbr << std::endl;
+			return (false);
+		}
 		return (true);
 	}
 	else if (nbr.length() > 4)
@@ -132,36 +137,4 @@ bool	checkNbr(std::string nbr)
 	else if (nbr[0] == '-')
 		std::cerr << "Error: nbr is negative => " + nbr << std::endl;
 	return (false);
-}
-
-bool	isFloat(std::string input)
-{
-	std::regex	pattern("^[+-]?\\d+(\\.\\d+)?$");
-	std::string	trimmed = input;
-	float		value = 0;
-
-	trimmed.erase(0, trimmed.find_first_not_of(" \t\n\r"));
-	trimmed.erase(trimmed.find_last_not_of(" \t\n\r") + 1);
-	if (!std::regex_match(trimmed, pattern)) {
-		return false;
-	}
-	try
-	{
-		value = std::stof(trimmed);
-	}
-	catch(const std::exception& e)
-	{
-		return false;
-	}
-	if (value < 0)
-	{
-		std::cerr << "Error: number is negative => " << trimmed << std::endl;
-		return false;
-	}
-	if (value > 1000)
-	{
-		std::cerr << "Error: number is too big => " << trimmed << std::endl;
-		return false;
-	}
-	return true;
 }

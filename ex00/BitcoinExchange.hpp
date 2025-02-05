@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:06:47 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/04 22:37:10 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/05 09:50:41 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ class BitcoinExchange
 std::multimap<std::string, std::string>	readFile(std::ifstream &input, char delimiter);
 bool	checkDate(std::string date);
 bool	checkNbr(std::string nbr);
-bool	isFloat(std::string input);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:41 by lbohm             #+#    #+#             */
-/*   Updated: 2025/01/21 23:06:47 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:31:21 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ class RPN
 		~RPN(void);
 		int	calcRPN(void);
 };
+
+std::pair<int, int>	getNbr(std::stack<int> &stack);
 
 #endif
