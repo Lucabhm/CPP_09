@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/05 11:54:08 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/06 17:52:30 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 	{
 		if (!checkDate(it->first))
 			throw std::runtime_error("database has wrong date");
+		float nbr = std::stof(it->second);
+		std::cout << nbr << std::endl;
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/06 09:24:59 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/06 17:54:08 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	RPN::calcRPN(void)
 
 std::pair<int, int>	getNbr(std::stack<int> &stack)
 {
-	int					nbr, nbr2;
+	int	nbr, nbr2;
 
 	if (stack.size() > 1)
 	{
