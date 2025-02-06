@@ -6,23 +6,32 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/05 13:09:34 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/06 09:24:59 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
-#include <iostream>
 
 RPN::RPN(void) {}
 
 RPN::RPN(std::string input)
 {
 	std::regex	pattern("^(?!.*\\d\\d)[+\\-*/\\s\\d]+$");
+	int			count = 0;
 	
 	if (input.empty())
 		throw std::runtime_error("Error: no input");
 	if (!std::regex_match(input, pattern))
 		throw std::runtime_error("Error: input is wrong => " + input);
+	for (int i = 0; i < input.length(); ++i)
+	{
+		if (std::isdigit(input[i]))
+			count++;
+		else if (input[i] == '+' || input[i] == '-' || input[i] == '*' || input[i] == '/')
+			count--;
+	}
+	if (count != 1)
+		throw std::runtime_error("Error: input is worng => " + input);
 	this->input = input;
 }
 
@@ -73,7 +82,7 @@ int	RPN::calcRPN(void)
 				throw std::runtime_error("Error: division by 0");
 			stack.push(nbrs.second / nbrs.first);
 		}
-		else if (this->input[i] != ' ')
+		else if (std::isdigit(this->input[i]))
 			stack.push(this->input[i] - 48);
 	}
 	return (stack.top());
