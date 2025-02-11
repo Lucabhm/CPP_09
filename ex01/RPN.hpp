@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:41 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/11 12:33:19 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/11 14:43:15 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ class RPN
 };
 
 std::pair<int, int>	getNbr(std::stack<int> &stack);
-void				checkNbr(int nbr, int nbr2, char op);
+int					checkNbr(std::stack<int> &stack, char op);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/11 13:01:39 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/11 14:44:09 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,15 @@ int	RPN::calcRPN(void)
 		if (this->input[i] == '+' || this->input[i] == '-'
 			|| this->input[i] == '*' || this->input[i] == '/')
 		{
-			nbrs = getNbr(stack);
-			if (this->input[i] == '+')
-				stack.push(nbrs.second + nbrs.first);
-			else if (this->input[i] == '-')
-				stack.push(nbrs.second - nbrs.first);
-			else if (this->input[i] == '*')
-				stack.push(nbrs.second * nbrs.first);
-			else if (this->input[i] == '/')
+			try
 			{
-				if (nbrs.first == 0 || nbrs.second == 0)
-					throw std::runtime_error("Error: division by 0");
-				stack.push(nbrs.second / nbrs.first);
+				stack.push(checkNbr(stack, this->input[i]));
 			}
+			catch(const std::exception& e)
+			{
+				throw;
+			}
+			
 		}
 		else if (std::isdigit(this->input[i]))
 			stack.push(this->input[i] - 48);
@@ -97,4 +93,27 @@ std::pair<int, int>	getNbr(std::stack<int> &stack)
 	else
 		throw std::runtime_error("Error: wrong input");
 	return (std::pair<int, int>(nbr, nbr2));
+}
+
+int	checkNbr(std::stack<int> &stack, char op)
+{
+	std::pair<int, int>	nbrs;
+	long long			result;
+
+	nbrs = getNbr(stack);
+	if (op == '+')
+		result = static_cast<long long>(nbrs.second) + static_cast<long long>(nbrs.first);
+	else if (op == '-')
+		result = static_cast<long long>(nbrs.second) - static_cast<long long>(nbrs.first);
+	else if (op == '*')
+		result = static_cast<long long>(nbrs.second) * static_cast<long long>(nbrs.first);
+	else
+	{
+		if (nbrs.first == 0 || nbrs.second == 0)
+			throw std::runtime_error("Error: division by 0");
+		result = static_cast<long long>(nbrs.second) / static_cast<long long>(nbrs.first);
+	}
+	if (result > std::numeric_limits<int>::max() || result < std::numeric_limits<int>::min())
+		throw std::runtime_error("Error: calculation gets to big");
+	return (static_cast<int>(result));
 }
