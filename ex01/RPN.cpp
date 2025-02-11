@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/06 17:54:08 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/11 13:01:39 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,23 @@ int	RPN::calcRPN(void)
 	std::pair<int, int>	nbrs;
 
 	for (int i = 0; i < this->input.length(); i++)
-	{
-		if (this->input[i] == '+')
+	{	
+		if (this->input[i] == '+' || this->input[i] == '-'
+			|| this->input[i] == '*' || this->input[i] == '/')
 		{
 			nbrs = getNbr(stack);
-			stack.push(nbrs.second + nbrs.first);
-		}
-		else if (this->input[i] == '-')
-		{
-			nbrs = getNbr(stack);
-			stack.push(nbrs.second - nbrs.first);
-		}
-		else if (this->input[i] == '*')
-		{
-			nbrs = getNbr(stack);
-			stack.push(nbrs.second * nbrs.first);
-		}
-		else if (this->input[i] == '/')
-		{
-			nbrs = getNbr(stack);
-			if (nbrs.first == 0 || nbrs.second == 0)
-				throw std::runtime_error("Error: division by 0");
-			stack.push(nbrs.second / nbrs.first);
+			if (this->input[i] == '+')
+				stack.push(nbrs.second + nbrs.first);
+			else if (this->input[i] == '-')
+				stack.push(nbrs.second - nbrs.first);
+			else if (this->input[i] == '*')
+				stack.push(nbrs.second * nbrs.first);
+			else if (this->input[i] == '/')
+			{
+				if (nbrs.first == 0 || nbrs.second == 0)
+					throw std::runtime_error("Error: division by 0");
+				stack.push(nbrs.second / nbrs.first);
+			}
 		}
 		else if (std::isdigit(this->input[i]))
 			stack.push(this->input[i] - 48);

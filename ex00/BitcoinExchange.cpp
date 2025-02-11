@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/06 17:52:30 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/11 10:30:56 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 {
 	std::ifstream	input, db;
 
-	if (file.empty())
+	if (file.c_str() == NULL || file.empty())
 		throw std::runtime_error("inputfile is empty");
 	if (database.empty())
 		throw std::runtime_error("database is empty");
@@ -35,7 +35,6 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 		if (!checkDate(it->first))
 			throw std::runtime_error("database has wrong date");
 		float nbr = std::stof(it->second);
-		std::cout << nbr << std::endl;
 	}
 }
 
@@ -143,5 +142,7 @@ bool	checkNbr(std::string nbr)
 		std::cerr << "Error: nbr is to big => " + nbr << std::endl;
 	else if (nbr[0] == '-')
 		std::cerr << "Error: nbr is negative => " + nbr << std::endl;
+	else
+		std::cerr << "Error: value is not a nbr => " + nbr << std::endl;
 	return (false);
 }

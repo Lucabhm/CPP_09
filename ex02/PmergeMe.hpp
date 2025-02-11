@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RPN.hpp                                            :+:      :+:    :+:   */
+/*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 21:10:41 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/11 12:33:19 by lbohm            ###   ########.fr       */
+/*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
+/*   Updated: 2025/02/11 13:10:03 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RPN_HPP
-# define RPN_HPP
+#ifndef PMERGEME_HPP
+# define PMERGEME_HPP
 
 # include <iostream>
-# include <string>
-# include <stack>
-# include <regex>
-# include <cctype>
-# include <limits>
+# include <list>
 
-class RPN
+class PmergeMe
 {
 	private:
-		std::string		input;
-		int				result;
+		std::list<int>	list;
+		
 	public:
-		RPN(void);
-		RPN(std::string input);
-		RPN(const RPN &cpy);
-		RPN	&operator= (const RPN &cpy);
-		~RPN(void);
-		int	calcRPN(void);
 };
-
-std::pair<int, int>	getNbr(std::stack<int> &stack);
-void				checkNbr(int nbr, int nbr2, char op);
 
 #endif
