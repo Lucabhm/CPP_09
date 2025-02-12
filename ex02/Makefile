@@ -1,7 +1,8 @@
 NAME = PmergeMe
 CC = c++
 CFLAGS = -Wall -Werror -Wextra -std=c++17
-SRCS = main.cpp
+SRCS = main.cpp \
+		PmergeMe.cpp
 OBJSDIR = objs/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.cpp=.o))
 
