@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/12 15:38:09 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/13 16:49:53 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PMERGEME_HPP
 
 # include <iostream>
-# include <list>
+# include <deque>
 # include <vector>
 # include <regex>
 # include <sstream>
@@ -22,7 +22,7 @@
 class PmergeMe
 {
 	private:
-		std::list<int>		list;
+		std::deque<int>		deque;
 		std::vector<int>	vector;
 	public:
 		PmergeMe(void);
@@ -30,8 +30,11 @@ class PmergeMe
 		PmergeMe(const PmergeMe &cpy);
 		PmergeMe	&operator= (const PmergeMe &cpy);
 		~PmergeMe(void);
-		void	printList(void);
+		void	printDeque(void);
 		void	printVec(void);
+		void	sortData(void);
+		void	sortDeque(void);
+		void	merge(std::deque<std::pair<int, int> > pairs);
 };
 
 #endif

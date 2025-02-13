@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/11 14:44:09 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:06:09 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ RPN::RPN(std::string input)
 		throw std::runtime_error("Error: no input");
 	if (!std::regex_match(input, pattern))
 		throw std::runtime_error("Error: input is wrong => " + input);
-	for (int i = 0; i < input.length(); ++i)
+	for (size_t i = 0; i < input.length(); ++i)
 	{
 		if (std::isdigit(input[i]))
 			count++;
@@ -56,9 +56,8 @@ RPN::~RPN(void) {}
 int	RPN::calcRPN(void)
 {
 	std::stack<int>		stack;
-	std::pair<int, int>	nbrs;
 
-	for (int i = 0; i < this->input.length(); i++)
+	for (size_t i = 0; i < this->input.length(); i++)
 	{	
 		if (this->input[i] == '+' || this->input[i] == '-'
 			|| this->input[i] == '*' || this->input[i] == '/')

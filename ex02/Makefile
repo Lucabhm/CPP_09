@@ -1,17 +1,17 @@
 NAME = PmergeMe
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++17
+CFLAGS = -std=c++17 -Wall -Werror -Wextra -Ofast
 SRCS = main.cpp \
 		PmergeMe.cpp
 OBJSDIR = objs/
 OBJS = $(addprefix $(OBJSDIR), $(SRCS:.cpp=.o))
 
 $(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJS) -fsanitize=address
+				$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 $(OBJSDIR)%.o:	%.cpp
 				@mkdir -p $(dir $@)
-				$(CC) -c $< -o $@
+				$(CC) $(CFLAGS) -c $< -o $@
 
 all:			$(NAME)
 

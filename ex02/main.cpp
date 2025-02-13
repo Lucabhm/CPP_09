@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:22 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/12 15:43:34 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/13 16:36:16 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ int	main(int argc, char **argv)
 		{
 			PmergeMe	input(values);
 
-			input.printList();
-			input.printVec();
+			input.sortData();
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << "Error: " << e.what() << std::endl;
 		}
 	}
 	else

@@ -1,6 +1,6 @@
 NAME = btc
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++17
+CFLAGS = -std=c++17 -Wall -Werror -Wextra -Ofast
 SRCS = main.cpp \
 		BitcoinExchange.cpp
 OBJSDIR = objs/
@@ -11,7 +11,7 @@ $(NAME):		$(OBJS)
 
 $(OBJSDIR)%.o:	%.cpp
 				@mkdir -p $(dir $@)
-				$(CC) -c $< -o $@
+				$(CC) $(CFLAGS) -c $< -o $@
 
 all:			$(NAME)
 

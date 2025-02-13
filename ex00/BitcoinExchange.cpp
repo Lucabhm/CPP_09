@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lucabohn          #+#    #+#             */
-/*   Updated: 2025/02/11 10:30:56 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/13 17:09:25 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 	{
 		if (!checkDate(it->first))
 			throw std::runtime_error("database has wrong date");
-		float nbr = std::stof(it->second);
+		std::stof(it->second);
 	}
 }
 
@@ -79,7 +79,7 @@ std::multimap<std::string, std::string>	readFile(std::ifstream &input, char deli
 {
 	std::multimap<std::string, std::string>	map;
 	std::string								line, date, nbr;
-	int										mid = 0, end = 0;
+	size_t									mid = 0, end = 0;
 
 	std::getline(input, line);
 	while (std::getline(input, line))
