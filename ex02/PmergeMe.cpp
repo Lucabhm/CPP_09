@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:25:03 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/13 17:03:09 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/14 17:44:12 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ PmergeMe::~PmergeMe(void) {}
 void	PmergeMe::printDeque(void)
 {
 	std::cout << "Deque:" << std::endl;
-	for (std::deque<int>::iterator it = this->deque.begin(); it != this->deque.end(); ++it)
-		std::cout << *it << std::endl;
+	for (iteratorDq it = this->deque.begin(); it != this->deque.end(); ++it)
+		std::cout << *it << " ";
+	std::cout << std::endl;
 }
 
 void	PmergeMe::printVec(void)
@@ -89,36 +90,82 @@ void	PmergeMe::printVec(void)
 
 void	PmergeMe::sortData(void)
 {
-	this->sortDeque();
-}
-
-void	PmergeMe::sortDeque(void)
-{
-	std::deque<std::pair<int, int> >	pairs;
-	bool								odd = this->deque.size() % 2;
-	int									oddNbr;
+	int			pairSize = 1;
+	bool		odd = this->deque.size() % 2;
+	iteratorDq	start = this->deque.begin();
+	iteratorDq	end = this->deque.end();
 
 	if (odd)
-		oddNbr = this->deque.back();
-	for (auto it = this->deque.begin(); it != this->deque.end(); ++it)
+		end = std::prev(end);
+	this->sortDeque(start, end, pairSize);
+}
+
+void	PmergeMe::sortDeque(iteratorDq start, iteratorDq end, int pairSize)
+{
+	if (pairSize >= std::distance(start, end))
+		return ;
+	while (std::distance(start, end) % (pairSize * 2) != 0)
+		end = std::prev(end);
+	mergeDeque(start, end, pairSize);
+	this->printDeque();
+	pairSize *= 2;
+	this->sortDeque(start, end, pairSize);
+	if (!this->insertDeque(start, end, pairSize))
+		return ;
+	std::cout << "pairSize = " << pairSize << " distance = " << std::distance(start, end) << std::endl;
+}
+
+void	PmergeMe::mergeDeque(iteratorDq start, iteratorDq end, int pairSize)
+{
+	std::pair<iteratorDq, iteratorDq>	firstPair;
+	std::pair<iteratorDq, iteratorDq>	secondPair;
+	
+
+	while (start < end)
 	{
-		std::deque<int>::iterator	nextIt = std::next(it);
-		if (nextIt != this->deque.end())
+		iteratorDq	firstEnd = std::next(start, pairSize);
+		iteratorDq	secondEnd = std::next(firstEnd, pairSize);
+		iteratorDq	secondLast = std::prev(secondEnd);
+
+		firstPair.first = start;
+		firstPair.second = std::prev(firstEnd);
+		secondPair.first = std::prev(secondLast, pairSize - 1);
+		secondPair.second = secondLast;
+		if (*firstPair.second > *secondPair.second)
 		{
-			pairs.push_back(std::pair<int, int>(*it, *nextIt));
-			++it;
+			while (firstPair.first <= firstPair.second)
+			{
+				std::swap(*firstPair.first, *secondPair.first);
+				firstPair.first++;
+				secondPair.first++;
+			}
 		}
+		start = std::next(start, pairSize * 2);
+	}
+}
+
+bool	PmergeMe::insertDeque(iteratorDq start, iteratorDq end, int pairSize)
+{
+	if (pairSize >= std::distance(start, end) || std::distance(start, end) / pairSize == 2)
+		return (false);
+	start = std::next(start, pairSize * 2);
+	std::deque<int>						pend;
+	std::pair<iteratorDq, iteratorDq>	pair;
+
+	while (start != end)
+	{
+		pair.first = start;
+		pair.second = std::next(start, pairSize);
+		pend.insert(pend.end(), pair.first, pair.second);
+		this->deque.erase(pair.first, pair.second);
+		if (pair.second == end)
+			start = std::next(start, pairSize * 2);
 		else
 			break ;
+		std::cout << "here" << std::endl;
 	}
-	for (std::deque<std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it)
-		std::cout << "first = " << it->first << " second = " << it->second << std::endl;
-	if (odd)
-		std::cout << "Last nbr = " << oddNbr << std::endl;
-	// this->merge(pairs);
+	std::cout << "pend:" << std::endl;
+	for (iteratorDq it = pend.begin(); it != pend.end(); ++it)
+		std::cout << *it << std::endl;
+	return (true);
 }
-
-// void	PmergeMe::merge(std::deque<std::pair<int, int> > pairs)
-// {
-	
-// }

@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/13 16:49:53 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/14 16:19:05 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ class PmergeMe
 		std::deque<int>		deque;
 		std::vector<int>	vector;
 	public:
+		using iteratorDq = std::deque<int>::iterator;
+
 		PmergeMe(void);
 		PmergeMe(std::vector<std::string> input);
 		PmergeMe(const PmergeMe &cpy);
@@ -33,8 +35,9 @@ class PmergeMe
 		void	printDeque(void);
 		void	printVec(void);
 		void	sortData(void);
-		void	sortDeque(void);
-		void	merge(std::deque<std::pair<int, int> > pairs);
+		void	sortDeque(iteratorDq start, iteratorDq end, int pairSize);
+		void	mergeDeque(iteratorDq s, iteratorDq e, int pairSize);
+		bool	insertDeque(iteratorDq start, iteratorDq end, int pairSize);
 };
 
 #endif
