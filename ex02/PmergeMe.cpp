@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:25:03 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/14 17:44:12 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/14 18:25:48 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,14 @@ void	PmergeMe::sortData(void)
 
 void	PmergeMe::sortDeque(iteratorDq start, iteratorDq end, int pairSize)
 {
-	if (pairSize >= std::distance(start, end))
+	if (pairSize == std::distance(start, end))
 		return ;
 	while (std::distance(start, end) % (pairSize * 2) != 0)
 		end = std::prev(end);
 	mergeDeque(start, end, pairSize);
 	this->printDeque();
 	pairSize *= 2;
+	std::cout << "pairSize = " << pairSize << " distance = " << std::distance(start, end) << std::endl;
 	this->sortDeque(start, end, pairSize);
 	if (!this->insertDeque(start, end, pairSize))
 		return ;
@@ -121,7 +122,7 @@ void	PmergeMe::mergeDeque(iteratorDq start, iteratorDq end, int pairSize)
 	std::pair<iteratorDq, iteratorDq>	secondPair;
 	
 
-	while (start < end)
+	while (start != end)
 	{
 		iteratorDq	firstEnd = std::next(start, pairSize);
 		iteratorDq	secondEnd = std::next(firstEnd, pairSize);
@@ -146,26 +147,26 @@ void	PmergeMe::mergeDeque(iteratorDq start, iteratorDq end, int pairSize)
 
 bool	PmergeMe::insertDeque(iteratorDq start, iteratorDq end, int pairSize)
 {
-	if (pairSize >= std::distance(start, end) || std::distance(start, end) / pairSize == 2)
+	if (pairSize == std::distance(start, end) || std::distance(start, end) / pairSize == 2)
 		return (false);
-	start = std::next(start, pairSize * 2);
+	iteratorDq							newStart = std::next(start, pairSize * 2);
 	std::deque<int>						pend;
 	std::pair<iteratorDq, iteratorDq>	pair;
 
-	while (start != end)
+	while (newStart != end)
 	{
-		pair.first = start;
-		pair.second = std::next(start, pairSize);
+		pair.first = newStart;
+		pair.second = std::next(newStart, pairSize);
 		pend.insert(pend.end(), pair.first, pair.second);
 		this->deque.erase(pair.first, pair.second);
-		if (pair.second == end)
-			start = std::next(start, pairSize * 2);
+		if (pair.second != end)
+			newStart = std::next(newStart, pairSize * 2);
 		else
 			break ;
-		std::cout << "here" << std::endl;
 	}
 	std::cout << "pend:" << std::endl;
 	for (iteratorDq it = pend.begin(); it != pend.end(); ++it)
 		std::cout << *it << std::endl;
+	newStart = std::next(start, pairSize * 2);
 	return (true);
 }
