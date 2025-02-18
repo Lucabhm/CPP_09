@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/14 16:19:05 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/18 16:29:26 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class PmergeMe
 		void	sortDeque(iteratorDq start, iteratorDq end, int pairSize);
 		void	mergeDeque(iteratorDq s, iteratorDq e, int pairSize);
 		bool	insertDeque(iteratorDq start, iteratorDq end, int pairSize);
+		int		binarySearch(int start, int end, std::deque<std::pair<iteratorDq, iteratorDq> > pair, std::pair<iteratorDq, iteratorDq> find);
 };
 
 #endif
