@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/18 16:29:26 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/19 16:40:05 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,14 @@ class PmergeMe
 		void	printDeque(void);
 		void	printVec(void);
 		void	sortData(void);
-		void	sortDeque(iteratorDq start, iteratorDq end, int pairSize);
-		void	mergeDeque(iteratorDq s, iteratorDq e, int pairSize);
-		bool	insertDeque(iteratorDq start, iteratorDq end, int pairSize);
-		int		binarySearch(int start, int end, std::deque<std::pair<iteratorDq, iteratorDq> > pair, std::pair<iteratorDq, iteratorDq> find);
+		// void	sortDeque(iteratorDq start, iteratorDq end, int pairSize);
+		void	sortDeque(int end, int pairSize);
+		// void	mergeDeque(iteratorDq s, iteratorDq e, int pairSize);
+		void	mergeDeque(int end, int pairSize);
+		// bool	insertDeque(iteratorDq start, iteratorDq end, int pairSize);
+		bool	insertDeque(int end, int pairSize);
+		// int		binarySearch(std::deque<std::pair<iteratorDq, iteratorDq> > pairs, int target);
+		int		binarySearch(std::deque<std::pair<int, int> > pairs, int target);
 };
 
 #endif
