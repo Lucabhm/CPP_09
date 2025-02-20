@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:25:03 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/19 17:11:30 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/20 17:20:20 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,105 +88,130 @@ void	PmergeMe::printVec(void)
 		std::cout << *it << std::endl;
 }
 
-// void	PmergeMe::sortData(void)
-// {
-// 	int			pairSize = 1;
-// 	bool		odd = this->deque.size() % 2;
-// 	iteratorDq	start = this->deque.begin();
-// 	iteratorDq	end = this->deque.end();
-
-// 	if (odd)
-// 		end = std::prev(end);
-// 	this->sortDeque(start, end, pairSize);
-// }
-
 void	PmergeMe::sortData(void)
 {
-	int		pairSize = 1;
-	bool	odd = this->deque.size() % 2;
-	int		end = this->deque.size();
+	int			pairSize = 1;
+	bool		odd = this->deque.size() > 1 && this->deque.size() % 2;
+	iteratorDq	end = this->deque.end();
 
 	if (odd)
-		--end;
+		end = std::prev(end);
 	this->sortDeque(end, pairSize);
-	this->printDeque();
+	this->insertDeque(end, pairSize);
 }
 
-// void	PmergeMe::sortDeque(iteratorDq start, iteratorDq end, int pairSize)
-// {
-// 	if (pairSize == std::distance(start, end))
-// 		return ;
-// 	while (std::distance(start, end) % (pairSize * 2) != 0)
-// 		end = std::prev(end);
-// 	mergeDeque(start, end, pairSize);
-// 	pairSize *= 2;
-// 	this->sortDeque(start, end, pairSize);
-// 	if (!this->insertDeque(start, end, pairSize))
-// 		return ;
-// }
 
-void	PmergeMe::sortDeque(int end, int pairSize)
+void	PmergeMe::sortDeque(iteratorDq end, int pairSize)
 {
-	if (pairSize == end)
+	if (pairSize == std::distance(this->deque.begin(), end))
 		return ;
-	while (end % (pairSize * 2) != 0)
-		--end;
-	this->mergeDeque(end, pairSize);
+	while (std::distance(this->deque.begin(), end) % (pairSize * 2) != 0)
+		end = std::prev(end);
+	mergeDeque(end, pairSize);
 	pairSize *= 2;
 	this->sortDeque(end, pairSize);
-	if (!this->insertDeque(end, pairSize))
-		return ;
+	std::cout << "pairSize = " << pairSize << std::endl;
 	this->printDeque();
-	exit(0);
+	this->insertDeque(end, pairSize);
+	if (pairSize == 2)
+		exit(0);
 }
 
-// void	PmergeMe::mergeDeque(iteratorDq start, iteratorDq end, int pairSize)
+
+void	PmergeMe::mergeDeque(iteratorDq end, int pairSize)
+{
+	std::deque<std::pair<iteratorDq, iteratorDq> >	arr(2);
+
+	for (iteratorDq start = this->deque.begin(); start != end; start = std::next(start, (pairSize * 2)))
+	{
+		arr[0] = std::pair<iteratorDq, iteratorDq>(start, start + pairSize);
+		arr[1] = std::pair<iteratorDq, iteratorDq>(start + pairSize, start + (pairSize * 2));
+		if (*std::prev(arr[0].second) > *std::prev(arr[1].second))
+			std::rotate(arr[0].first, arr[1].first, arr[1].second);
+	}
+}
+
+// void	PmergeMe::insertDeque(iteratorDq end, int pairSize)
 // {
-// 	std::pair<iteratorDq, iteratorDq>	firstPair;
-// 	std::pair<iteratorDq, iteratorDq>	secondPair;
-	
+// 	iteratorDq	start = this->deque.begin();
 
-// 	while (start != end)
+// 	if (pairSize == std::distance(start, end) || std::distance(start, end) / pairSize == 2)
+// 		return ;
+// 	std::deque<int>	main;
+// 	std::deque<int>	pend;
+// 	bool			odd = true;
+
+// 	main.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
+// 	main.push_back(std::pair<iteratorDq, iteratorDq>(start + pairSize, start + (pairSize * 2)));
+// 	start += (pairSize * 2);
+// 	for (; start != end; start += pairSize)
 // 	{
-// 		iteratorDq	firstEnd = std::next(start, pairSize);
-// 		iteratorDq	secondEnd = std::next(firstEnd, pairSize);
-// 		iteratorDq	secondLast = std::prev(secondEnd);
-
-// 		firstPair.first = start;
-// 		firstPair.second = std::prev(firstEnd);
-// 		secondPair.first = std::prev(secondLast, pairSize - 1);
-// 		secondPair.second = secondLast;
-// 		if (*firstPair.second > *secondPair.second)
-// 		{
-// 			while (firstPair.first <= firstPair.second)
-// 			{
-// 				std::swap(*firstPair.first, *secondPair.first);
-// 				firstPair.first++;
-// 				secondPair.first++;
-// 			}
-// 		}
-// 		start = std::next(start, pairSize * 2);
+// 		if (odd)
+// 			pend.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
+// 		else
+// 			main.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
+// 		odd = !odd;
+// 	}
+// 	for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
+// 	{
+// 		int index = this->binarySearch(main, *std::prev(it->second));
+// 		std::rotate(main[index].first, it->first, it->second);
 // 	}
 // }
 
-void	PmergeMe::mergeDeque(int end, int pairSize)
+void	PmergeMe::insertDeque(iteratorDq end, int pairSize)
 {
-	std::deque<int>	arr(4);
-	int				start = 0;
+	iteratorDq	start = this->deque.begin();
 
-	while (start != end)
+	if (pairSize == std::distance(start, end) || std::distance(start, end) / pairSize == 2)
+		return ;
+	std::deque<std::pair<iteratorDq, iteratorDq> >	main;
+	std::deque<std::pair<iteratorDq, iteratorDq> >	pend;
+	bool											odd = true;
+
+	main.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
+	main.push_back(std::pair<iteratorDq, iteratorDq>(start + pairSize, start + (pairSize * 2)));
+	start += (pairSize * 2);
+	for (; start != end; start += pairSize)
 	{
-		arr[0] = start;
-		arr[1] = start + pairSize - 1;
-		arr[2] = arr[1] + 1;
-		arr[3] = arr[2] + pairSize - 1;
-		if (this->deque.size() > static_cast<unsigned long>(arr[3]))
-		{
-			if (this->deque[arr[1]] > this->deque[arr[3]])
-				std::rotate(this->deque.begin() + arr[0], this->deque.begin() + arr[2], this->deque.begin() + arr[3] + 1);
-		}
-		start += (pairSize * 2);
+		if (odd)
+			pend.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
+		else
+			main.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
+		odd = odd ? false : true;
 	}
+	std::cout << "main" << std::endl;
+	for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = main.begin(); it != main.end(); ++it)
+		std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
+	std::cout << "pend" << std::endl;
+	for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
+		std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
+	for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
+	{
+		int index = this->binarySearch(main, *std::prev(it->second));
+		std::cout << "index = " << index << std::endl;
+		std::deque<std::pair<iteratorDq, iteratorDq> >::iterator	pos = main.begin() + index;
+		std::rotate(pos->first, it->first, it->second);
+		this->printDeque();
+		std::cout << "main for loop" << std::endl;
+		for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = main.begin(); it != main.end(); ++it)
+			std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
+	}
+}
+
+int	PmergeMe::binarySearch(std::deque<std::pair<iteratorDq, iteratorDq> > pairs, int target)
+{
+	int low = 0, mid = 0, high = pairs.size();
+
+	while (low <= high)
+	{
+		mid = low + (high - low) / 2;
+		if (*std::prev(pairs[mid].second) < target)
+			low = mid + 1;
+		else if (*std::prev(pairs[mid].second) > target)
+			high = mid - 1;
+	}
+	return (low);
 }
 
 // bool	PmergeMe::insertDeque(iteratorDq start, iteratorDq end, int pairSize)
@@ -251,68 +276,100 @@ void	PmergeMe::mergeDeque(int end, int pairSize)
 // 	return (true);
 // }
 
-bool	PmergeMe::insertDeque(int end, int pairSize)
-{
-	if (pairSize == end || (end / pairSize) == 2)
-		return (false);
-	std::deque<std::pair<int, int> >	mainChain;
-	std::deque<std::pair<int, int> >	pend;
-	int				start = 0;
-	bool			test = true;
-
-	mainChain.push_back(std::pair<int, int>(start, pairSize - 1));
-	mainChain.push_back(std::pair<int, int>(pairSize, (pairSize * 2) - 1));
-	start = (pairSize * 2);
-	while (start < end)
-	{
-		if (test)
-		{
-			pend.push_back(std::pair<int, int>(start, start + pairSize - 1));
-			test = false;
-		}
-		else
-		{
-			mainChain.push_back(std::pair<int, int>(start, start + pairSize - 1));
-			test = true;
-		}
-		start += pairSize;
-	}
-	for (std::deque<std::pair<int, int> >::iterator it = pend.begin(); it != pend.end(); ++it)
-	{
-		int index = this->binarySearch(mainChain, it->second);
-		std::cout << "index = " << index << std::endl;
-		std::rotate(this->deque.begin() + mainChain[index].second + 1, this->deque.begin() + it->first, this->deque.begin() + it->second + 1);
-	}
-	return (true);
-}
-
-// int	PmergeMe::binarySearch(std::deque<std::pair<iteratorDq, iteratorDq> > pairs, int target)
+// void	PmergeMe::sortData(void)
 // {
-// 	int low = 0, mid = 0, high = pairs.size();
+// 	int		pairSize = 1;
+// 	bool	odd = this->deque.size() % 2;
+// 	int		end = this->deque.size();
+
+// 	if (odd)
+// 		--end;
+// 	this->sortDeque(end, pairSize);
+// 	this->printDeque();
+// }
+
+// void	PmergeMe::sortDeque(int end, int pairSize)
+// {
+// 	if (pairSize == end)
+// 		return ;
+// 	while (end % (pairSize * 2) != 0)
+// 		--end;
+// 	this->mergeDeque(end, pairSize);
+// 	pairSize *= 2;
+// 	this->sortDeque(end, pairSize);
+// 	if (!this->insertDeque(end, pairSize))
+// 		return ;
+// 	this->printDeque();
+// 	exit(0);
+// }
+
+// void	PmergeMe::mergeDeque(int end, int pairSize)
+// {
+// 	std::deque<int>	arr(4);
+// 	int				start = 0;
+
+// 	while (start != end)
+// 	{
+// 		arr[0] = start;
+// 		arr[1] = start + pairSize - 1;
+// 		arr[2] = arr[1] + 1;
+// 		arr[3] = arr[2] + pairSize - 1;
+// 		if (this->deque.size() > static_cast<unsigned long>(arr[3]))
+// 		{
+// 			if (this->deque[arr[1]] > this->deque[arr[3]])
+// 				std::rotate(this->deque.begin() + arr[0], this->deque.begin() + arr[2], this->deque.begin() + arr[3] + 1);
+// 		}
+// 		start += (pairSize * 2);
+// 	}
+// }
+
+// bool	PmergeMe::insertDeque(int end, int pairSize)
+// {
+// 	if (pairSize == end || (end / pairSize) == 2)
+// 		return (false);
+// 	std::deque<std::pair<int, int> >	mainChain;
+// 	std::deque<std::pair<int, int> >	pend;
+// 	int				start = 0;
+// 	bool			test = true;
+
+// 	mainChain.push_back(std::pair<int, int>(start, pairSize - 1));
+// 	mainChain.push_back(std::pair<int, int>(pairSize, (pairSize * 2) - 1));
+// 	start = (pairSize * 2);
+// 	while (start < end)
+// 	{
+// 		if (test)
+// 		{
+// 			pend.push_back(std::pair<int, int>(start, start + pairSize - 1));
+// 			test = false;
+// 		}
+// 		else
+// 		{
+// 			mainChain.push_back(std::pair<int, int>(start, start + pairSize - 1));
+// 			test = true;
+// 		}
+// 		start += pairSize;
+// 	}
+// 	for (std::deque<std::pair<int, int> >::iterator it = pend.begin(); it != pend.end(); ++it)
+// 	{
+// 		int index = this->binarySearch(mainChain, it->second);
+// 		std::cout << "index = " << index << std::endl;
+// 		std::rotate(this->deque.begin() + mainChain[index].second + 1, this->deque.begin() + it->first, this->deque.begin() + it->second + 1);
+// 	}
+// 	return (true);
+// }
+
+// int	PmergeMe::binarySearch(std::deque<std::pair<int, int> > mainChain, int target)
+// {
+// 	int low = 0, mid = 0, high = mainChain.size();
 
 // 	while (low <= high)
 // 	{
 // 		mid = low + (high - low) / 2;
-// 		if (*std::prev(pairs[mid].second) < target)
+// 		std::cout << "main  = " << this->deque[mainChain[mid].second] << " target = " << this->deque[target] << std::endl;
+// 		if (this->deque[mainChain[mid].second] < this->deque[target])
 // 			low = mid + 1;
-// 		else if (*std::prev(pairs[mid].second) > target)
+// 		else if (this->deque[mainChain[mid].second] > this->deque[target])
 // 			high = mid - 1;
 // 	}
-// 	return (mid);
+// 	return (mid - 1);
 // }
-
-int	PmergeMe::binarySearch(std::deque<std::pair<int, int> > mainChain, int target)
-{
-	int low = 0, mid = 0, high = mainChain.size();
-
-	while (low <= high)
-	{
-		mid = low + (high - low) / 2;
-		std::cout << "main  = " << this->deque[mainChain[mid].second] << " target = " << this->deque[target] << std::endl;
-		if (this->deque[mainChain[mid].second] < this->deque[target])
-			low = mid + 1;
-		else if (this->deque[mainChain[mid].second] > this->deque[target])
-			high = mid - 1;
-	}
-	return (mid - 1);
-}
