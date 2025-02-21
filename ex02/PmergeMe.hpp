@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/20 11:28:48 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/21 13:47:21 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class PmergeMe
 		std::deque<int>		deque;
 		std::vector<int>	vector;
 	public:
-		using iteratorDq = std::deque<int>::iterator;
+		using ItDq = std::deque<int>::iterator;
 
 		PmergeMe(void);
 		PmergeMe(std::vector<std::string> input);
@@ -35,14 +35,10 @@ class PmergeMe
 		void	printDeque(void);
 		void	printVec(void);
 		void	sortData(void);
-		void	sortDeque(iteratorDq end, int pairSize);
-		void	mergeDeque(iteratorDq end, int pairSize);
-		void	insertDeque(iteratorDq end, int pairSize);
-		int		binarySearch(std::deque<std::pair<iteratorDq, iteratorDq> > pairs, int target);
-		// void	sortDeque(int end, int pairSize);
-		// void	mergeDeque(int end, int pairSize);
-		// bool	insertDeque(int end, int pairSize);
-		// int		binarySearch(std::deque<std::pair<int, int> > pairs, int target);
+		void	sortDeque(ItDq end, int pairSize);
+		void	mergeDeque(ItDq end, int pairSize);
+		void	insertDeque(ItDq end, int pairSize);
+		int		binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target);
 };
 
 #endif
