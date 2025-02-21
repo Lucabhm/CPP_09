@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/21 13:47:21 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/21 16:22:13 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class PmergeMe
 	private:
 		std::deque<int>		deque;
 		std::vector<int>	vector;
+		int					compare;
 	public:
 		using ItDq = std::deque<int>::iterator;
 
@@ -39,6 +40,10 @@ class PmergeMe
 		void	mergeDeque(ItDq end, int pairSize);
 		void	insertDeque(ItDq end, int pairSize);
 		int		binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target);
+		void	ceatePairs(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend,
+							std::deque<int>::iterator end, int pairSize);
 };
+
+void	nextJacobsthal(size_t &prevJ, size_t &currJ);
 
 #endif
