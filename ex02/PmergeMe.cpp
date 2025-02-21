@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:25:03 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/20 17:20:20 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/21 01:11:28 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,9 @@ void	PmergeMe::sortData(void)
 	if (odd)
 		end = std::prev(end);
 	this->sortDeque(end, pairSize);
-	this->insertDeque(end, pairSize);
+	std::cout << "pairSize = " << pairSize << std::endl;
+	this->insertDeque(this->deque.end(), pairSize);
+	this->printDeque();
 }
 
 
@@ -113,8 +115,8 @@ void	PmergeMe::sortDeque(iteratorDq end, int pairSize)
 	std::cout << "pairSize = " << pairSize << std::endl;
 	this->printDeque();
 	this->insertDeque(end, pairSize);
-	if (pairSize == 2)
-		exit(0);
+	// if (pairSize == 2)
+	// 	exit(0);
 }
 
 
@@ -178,7 +180,7 @@ void	PmergeMe::insertDeque(iteratorDq end, int pairSize)
 			pend.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
 		else
 			main.push_back(std::pair<iteratorDq, iteratorDq>(start, start + pairSize));
-		odd = odd ? false : true;
+		odd = !odd;
 	}
 	std::cout << "main" << std::endl;
 	for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = main.begin(); it != main.end(); ++it)
@@ -190,8 +192,17 @@ void	PmergeMe::insertDeque(iteratorDq end, int pairSize)
 	{
 		int index = this->binarySearch(main, *std::prev(it->second));
 		std::cout << "index = " << index << std::endl;
-		std::deque<std::pair<iteratorDq, iteratorDq> >::iterator	pos = main.begin() + index;
-		std::rotate(pos->first, it->first, it->second);
+		std::deque<int>::iterator	test;
+		if (main[index].first < it->first)
+			test = std::rotate(main[index].first, it->first, it->second);
+		else
+			test = std::rotate(it->first, main[index].first, it->second);
+		std::cout << "test = " << *test << std::endl;
+		std::cout << "first element = " << *it->first << std::endl;
+		int indexPend = std::distance(pend.begin(), it) + 2;
+		std::cout << "intdexPend = " << indexPend << std::endl;
+		if (test != it->first)
+			main.insert(main.begin() + indexPend, *it);
 		this->printDeque();
 		std::cout << "main for loop" << std::endl;
 		for (std::deque<std::pair<iteratorDq, iteratorDq> >::iterator it = main.begin(); it != main.end(); ++it)
@@ -203,6 +214,7 @@ int	PmergeMe::binarySearch(std::deque<std::pair<iteratorDq, iteratorDq> > pairs,
 {
 	int low = 0, mid = 0, high = pairs.size();
 
+	std::cout << "target = " << target << std::endl;
 	while (low <= high)
 	{
 		mid = low + (high - low) / 2;
