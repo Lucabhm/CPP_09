@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/21 16:22:13 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/24 15:18:32 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class PmergeMe
 		void	sortDeque(ItDq end, int pairSize);
 		void	mergeDeque(ItDq end, int pairSize);
 		void	insertDeque(ItDq end, int pairSize);
-		int		binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target);
+		int		binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target, int end);
 		void	ceatePairs(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend,
 							std::deque<int>::iterator end, int pairSize);
 };
