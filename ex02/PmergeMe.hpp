@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/26 10:45:46 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/26 23:09:56 by lucabohn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class PmergeMe
 		int		binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target, int end);
 		void	ceatePairs(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend,
 							std::deque<int>::iterator end, int pairSize);
-		void	insertPair(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend, std::deque<std::pair<ItDq, ItDq> >::iterator &b, int pairSize, int index);
+		void	insertPair(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend, std::deque<std::pair<ItDq, ItDq> >::iterator b, int pairSize, int index);
 };
 
 void	nextJacobsthal(size_t &prevJ, size_t &currJ);
