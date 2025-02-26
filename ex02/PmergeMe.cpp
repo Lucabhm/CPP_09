@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:25:03 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/25 16:06:35 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/02/26 17:08:09 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ void	PmergeMe::insertDeque(ItDq end, int pairSize)
 	size_t											prevJ = 1;
 
 	this->ceatePairs(main, pend, end, pairSize);
-	std::cout << "main size = " << main.size() << " pend size = " << pend.size() << std::endl;
 	endP = pend.end();
 	while (true)
 	{
@@ -162,113 +161,25 @@ void	PmergeMe::insertDeque(ItDq end, int pairSize)
 			startP = std::prev(pend.end(), pend.size());
 			endJ = main.size() - 1;
 		}
-		std::cout << "endJ = " << endJ << std::endl;
 		tmp = startP;
 		while (startP != endP)
 		{
-			std::cout << "main[0].first = " << *main[0].first << " startP->second = " << *startP->second << " endJ = " << endJ << std::endl;
 			size_t iMain = this->binarySearch(main, *std::prev(startP->second), endJ);
 			std::cout << "index = " << iMain << std::endl;
-			ItDq	test;
-			std::cout << "main size = " << main.size() << std::endl;
-			if (pairSize == 1)
-				this->insertPair(main, startP, pairSize, iMain);
-			std::cout << "main:" << std::endl;
-			for (std::deque<std::pair<ItDq, ItDq> >::iterator it = main.begin(); it != main.end(); ++it)
-				std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
-			std::cout << "pend:" << std::endl;
-			for (std::deque<std::pair<ItDq, ItDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
-				std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
-			// if (iMain < main.size())
-			// {
-			// 	std::cout << "main->first = " << *main[iMain].first << std::endl;
-			// 	if (startP->second == this->deque.end() && startP->first == std::prev(startP->second))
-			// 	{
-			// 		startP->first = this->deque.insert(main[iMain].first, *startP->first);
-			// 		startP->second = std::next(startP->first, pairSize);
-			// 		this->deque.erase(std::prev(this->deque.end()));
-			// 		test = main[iMain].first;
-			// 	}
-			// 	else if (startP->second == this->deque.end())
-			// 		this->deque.insert(main[iMain].first, startP->first, std::prev(startP->second));
-			// 	else
-			// 		this->deque.insert(main[iMain].first, startP->first, startP->second);
-			// 	this->printDeque();
-			// 	// if (main[iMain].first < startP->first)
-			// 	// {
-			// 	// 	std::cout << "hallo" << std::endl;
-			// 	// 	std::cout << "new startP->first = " << *startP->first << std::endl;
-			// 	// 	test = main[iMain].first;
-			// 	// 	if (startP->second == this->deque.end())
-			// 	// 		this->deque.erase(std::prev(this->deque.end()));
-			// 	// 	else
-			// 	// 		this->deque.erase(startP->first, startP->second);
-			// 	// 	this->printDeque();
-			// 	// }
-			// 	// else
-			// 	// {
-			// 	// 	test = startP->first;
-			// 	// 	this->deque.erase(startP->first, startP->second);
-			// 	// }
-			// 	// if (main[iMain].first < startP->first)
-			// 	// 	test = std::rotate(main[iMain].first, startP->first, startP->second);
-			// 	// else
-			// 	// 	test = std::rotate(startP->first, main[iMain].first, startP->second);
-			// }
-			// else
-			// {
-			// 	std::cout << "here" << std::endl;
-			// 	std::cout << "main->first = " << *main[iMain - 1].first << std::endl;
-			// 	if (main[iMain - 1].second > startP->first)
-			// 		test = std::rotate(startP->first, main[iMain - 1].first, startP->second);
-			// 	else
-			// 		test = std::prev(this->deque.end());
-			// }
-			// std::cout << "test = " << *test << " end pos = " << *startP->first << std::endl;
-			// for (std::deque<std::pair<ItDq, ItDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
-			// {
-			// 	std::cout << "it->first = " << *it->first << " it->second = " << *it->second << std::endl;
-			// 	std::cout << "startP->first = " << *startP->first << " startP->second = " << *startP->second << std::endl;
-			// 	if (test <= it->first && startP->first > it->first && it != startP)
-			// 	{
-			// 		it->first += pairSize;
-			// 		it->second += pairSize;
-			// 	}
-			// }
-			// size_t iPend = std::distance(main.begin()->first, startP->first) / pairSize;
-			// size_t	update = std::distance(main.begin()->first, test) / pairSize;
-			// std::cout << "update = " << update << std::endl;
-			// std::cout << "iPend = " << iPend << std::endl;
+			this->insertPair(main, pend, startP, pairSize, iMain);
 			if (iMain > endJ)
 				iMain = endJ;
 			if (iMain < main.size())
 				main.insert(main.begin() + iMain, *startP);
 			else
 				main.push_back(*startP);
-			// std::cout << "main insert:" << std::endl;
-			// for (std::deque<std::pair<ItDq, ItDq> >::iterator it = main.begin(); it != main.end(); ++it)
-			// 	std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
-			// std::cout << std::endl;
-			// if (iPend >= update)
-			// {
-			// 	while (update < iPend)
-			// 	{
-			// 		main[update].first = test;
-			// 		main[update].second = test + pairSize;
-			// 		test += pairSize;
-			// 		std::cout << "test = " << *test << std::endl;
-			// 		update++;
-			// 	}
-			// }
+			this->printDeque();
 			std::cout << "main:" << std::endl;
 			for (std::deque<std::pair<ItDq, ItDq> >::iterator it = main.begin(); it != main.end(); ++it)
 				std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
-			std::cout << std::endl;
 			std::cout << "pend:" << std::endl;
 			for (std::deque<std::pair<ItDq, ItDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
 				std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
-			std::cout << std::endl;
-			this->printDeque();
 			startP++;
 		}
 		endP = tmp;
@@ -276,7 +187,6 @@ void	PmergeMe::insertDeque(ItDq end, int pairSize)
 		if (endP == pend.begin())
 			break ;
 	}
-	this->printDeque();
 }
 
 int	PmergeMe::binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target, int end)
@@ -326,33 +236,118 @@ void	nextJacobsthal(size_t &prevJ, size_t &currJ)
 	currJ = nextJ;
 }
 
-void	PmergeMe::insertPair(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> >::iterator &pend, int pairSize, int index)
+void	PmergeMe::insertPair(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend,
+								std::deque<std::pair<ItDq, ItDq> >::iterator &b, int pairSize, int index)
 {
-	ItDq	end;
-	ItDq	oldPend;
-	ItDq	newPend;
-	ItDq	newEnd;
+	ItDq			end;
+	std::deque<int>	tmp;
+	std::deque<int>	offsetM;
+	std::deque<int>	offsetP;
+	int				offsetE;
+	int				offsetI;
 
-	std::cout << "insert Pair" << std::endl;
-	if (pend->second == this->deque.end())
-		end = std::prev(pend->second);
+	if (b->second == this->deque.end())
+		offsetE = this->deque.size();
 	else
-		end = pend->second;
-	if (pend->first == end)
-	{
-		newPend = this->deque.insert(main[index].first, *pend->first);
-		this->printDeque();
-		ItDq	test = std::next(pend->first);
-		std::cout << "test = " << *test << std::endl;
-		newEnd = this->deque.erase(test);
-		this->printDeque();
-		pend->first = newPend;
-	}
+		offsetE = std::distance(this->deque.begin(), b->second);
+	if (main.size() == static_cast<size_t>(index))
+		offsetI = index;
+	else
+		offsetI = std::distance(this->deque.begin(), main[index].first);
+	std::cout << "offsetI = " << offsetI << " offsetE = " << offsetE << std::endl;
+	if (offsetI == offsetE)
+		return ;
+	std::cout << "b->first = " << *b->first << " b->second = " << *b->second << std::endl;
+	for (ItDq it = b->first; it != b->second; ++it)
+		tmp.push_back(*it);
+	for (std::deque<std::pair<ItDq, ItDq> >::iterator it = main.begin(); it != main.end(); ++it)
+		offsetM.push_back(std::distance(this->deque.begin(), it->first));
+	std::cout << "offsetM:" << std::endl;
+	for (ItDq it = offsetM.begin(); it != offsetM.end(); ++it)
+		std::cout << *it << std::endl;
+	for (std::deque<std::pair<ItDq, ItDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
+		offsetP.push_back(std::distance(this->deque.begin(), it->first));
+	std::cout << "offsetP:" << std::endl;
+	for (ItDq it = offsetP.begin(); it != offsetP.end(); ++it)
+		std::cout << *it << std::endl;
+
+
+	// if (b->second == this->deque.end())
+	// 	end = std::prev(b->second);
 	// else
-	// {
-	// 	pend->first = this->deque.insert(main[index].first, pend->first, end);
-	// 	newEnd = this->deque.erase(oldPend, end);
-	// }
-	pend->second = std::next(pend->first, pairSize);
+	// 	end = b->second;
+
+	this->deque.insert(this->deque.begin() + offsetI, tmp.begin(), tmp.end());
+	// std::next(b->first, pairSize);
+
 	this->printDeque();
+	if (this->deque.begin() + offsetE == this->deque.end())
+		this->deque.erase(this->deque.begin() + offsetE);
+	else
+		this->deque.erase(this->deque.begin() + offsetE, this->deque.begin() + offsetE + pairSize);
+
+	b->first = this->deque.begin() + offsetI;
+	b->second = std::next(b->first, pairSize);
+	this->printDeque();
+
+	int	i = 0;
+	for (std::deque<std::pair<ItDq, ItDq> >::iterator it = main.begin(); it != main.end(); ++it)
+	{
+		std::cout << "i = " << i << std::endl;
+		if (offsetM[i] >= offsetI && offsetM[i] < offsetE)
+		{
+			std::cout << "offsetM[i] = " << offsetM[i] << std::endl;
+			it->first = this->deque.begin() + offsetM[i] + pairSize;
+			it->second = std::next(it->first, pairSize);
+		}
+		else
+		{
+			std::cout << "offsetM[i] else = " << offsetM[i] << std::endl;
+			it->first = this->deque.begin() + offsetM[i];
+			it->second = std::next(it->first, pairSize);
+		}
+		i++;
+	}
+	i = 0;
+	for (std::deque<std::pair<ItDq, ItDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
+	{
+		if (it != b)
+		{
+			if (offsetP[i] >= offsetI && offsetP[i] < offsetE)
+			{
+				std::cout << "offsetP[i] = " << offsetP[i] << std::endl;
+				it->first = this->deque.begin() + offsetP[i] + pairSize;
+				it->second = std::next(it->first, pairSize);
+			}
+			else
+			{
+				std::cout << "offsetP[i] else = " << offsetP[i] << std::endl;
+				it->first = this->deque.begin() + offsetP[i];
+				std::cout << "size = " << offsetP[i] + pairSize << "deque size = " << this->deque.size() << std::endl;
+				if (static_cast<size_t>(offsetP[i] + pairSize) >= this->deque.size())
+				{
+					std::cout << "here" << std::endl;
+					it->second = this->deque.end();
+					std::cout << "it->second = " << *it->second << std::endl;
+					std::cout << "distance = " << std::distance(this->deque.begin(), it->second) << std::endl;
+					std::cout << "next = " << *std::next(it->second, 2) << std::endl;
+					std::cout << "distance = " << std::distance(this->deque.begin(), std::next(it->second, 2)) << std::endl;
+				}
+				else
+					it->second = std::next(it->first, pairSize);
+			}
+		}
+		i++;
+	}
+	std::cout << "main test:" << std::endl;
+	for (std::deque<std::pair<ItDq, ItDq> >::iterator it = main.begin(); it != main.end(); ++it)
+		std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
+	std::cout << "pend test:" << std::endl;
+	for (std::deque<std::pair<ItDq, ItDq> >::iterator it = pend.begin(); it != pend.end(); ++it)
+		std::cout << "first = " << *it->first << " second = " << *it->second << std::endl;
 }
+
+// void	PmergeMe::updatePair(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend, int offsetI, int offsetE)
+// {
+	
+// }
