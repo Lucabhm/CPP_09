@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/26 23:09:56 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:58:43 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ class PmergeMe
 		void	mergeDeque(ItDq end, int pairSize);
 		void	insertDeque(ItDq end, int pairSize);
 		int		binarySearch(std::deque<std::pair<ItDq, ItDq> > pairs, int target, int end);
-		void	ceatePairs(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend,
-							std::deque<int>::iterator end, int pairSize);
+		int		binarySearch(std::deque<int> mainIndex, int targetIndex, int endIndex);
+		// void	ceatePairs(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend,
+		// 					std::deque<int>::iterator end, int pairSize);
+		void	createPairs(std::deque<int> &mainIndex, std::deque<int> &pendIndex, int pairSize);
+		void	insertPair(std::deque<int> &mainIndex, std::deque<int> &pendIndex, int indexMain, int indexPend, int pairSize);
 		void	insertPair(std::deque<std::pair<ItDq, ItDq> > &main, std::deque<std::pair<ItDq, ItDq> > &pend, std::deque<std::pair<ItDq, ItDq> >::iterator b, int pairSize, int index);
 };
 
