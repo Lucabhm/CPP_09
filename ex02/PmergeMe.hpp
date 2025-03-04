@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 13:07:46 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/28 12:27:20 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/03/04 09:10:59 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class PmergeMe
 		~PmergeMe(void);
 		
 		void	sortData(void);
-		void	printResult(std::deque<int> befor, std::chrono::duration<double> diffDq, std::chrono::duration<double> diffVec);
+		void	printResult(std::deque<int> befor, double diffDq, double diffVec);
 
 		void	printDeque(void);
 		void	sortDeque(ItDq end, int pairSize);

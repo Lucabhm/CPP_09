@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucabohn <lucabohn@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:25:03 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/28 12:31:47 by lucabohn         ###   ########.fr       */
+/*   Updated: 2025/03/04 09:10:33 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	PmergeMe::sortData(void)
 	this->insertDeque(this->deque.end(), pairSize);
 	std::chrono::time_point	end = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double>	diffDq = end - start;
+	double	diffDq = std::chrono::duration<double, std::micro>(end - start).count();
 
 	start = std::chrono::high_resolution_clock::now();
 	if (odd)
@@ -94,7 +94,7 @@ void	PmergeMe::sortData(void)
 	this->insertVec(this->vector.end(), pairSize);
 	end = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double >	diffVec = end - start;
+	double	diffVec = std::chrono::duration<double, std::micro>(end - start).count();
 	bool	sortDq = std::is_sorted(this->deque.begin(), this->deque.end());
 	bool	sortVec = std::is_sorted(this->vector.begin(), this->vector.end());
 	if (sortDq && sortVec)
@@ -267,7 +267,7 @@ void	nextJacobsthal(size_t &prevJ, size_t &currJ)
 	currJ = nextJ;
 }
 
-void	PmergeMe::printResult(std::deque<int> befor, std::chrono::duration<double> diffDq, std::chrono::duration<double> diffVec)
+void	PmergeMe::printResult(std::deque<int> befor, double diffDq, double diffVec)
 {
 	std::cout << "Befor: ";
 	for (ItDq it = befor.begin(); it != befor.end(); ++it)
@@ -277,6 +277,6 @@ void	PmergeMe::printResult(std::deque<int> befor, std::chrono::duration<double> 
 	std::cout << "After: ";
 	this->printDeque();
 	
-	std::cout << "Time to process a range of  " << this->deque.size() << " elements with std::deque : " << diffDq.count() << " us" << std::endl;
-	std::cout << "Time to process a range of  " << this->vector.size() << " elements with std::vector : " << diffVec.count() << " us" << std::endl;
+	std::cout << "Time to process a range of  " << this->deque.size() << " elements with std::deque : " << diffDq << " us" << std::endl;
+	std::cout << "Time to process a range of  " << this->vector.size() << " elements with std::vector : " << diffVec << " us" << std::endl;
 }
