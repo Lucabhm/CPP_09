@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lbohm             #+#    #+#             */
-/*   Updated: 2025/03/04 09:14:03 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/03/04 11:36:44 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	BitcoinExchange::checkPrice(void) const
 		if (checkDate(it->first))
 		{
 			found = this->db.lower_bound(it->first);
-			if (found == this->db.end() || found->first != it->first)
+			if (found == this->db.end())
 				--found;
 			if (checkNbr(it->second))
 				std::cout << it->first << " => " << it->second << " = " << std::stof(it->second) * std::stof(found->second) << std::endl;
