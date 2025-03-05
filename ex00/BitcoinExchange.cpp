@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 23:07:37 by lbohm             #+#    #+#             */
-/*   Updated: 2025/03/04 13:55:27 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/03/05 14:20:18 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 {
 	std::ifstream	input, db;
 
-	if (file.c_str() == NULL || file.empty())
-		throw std::runtime_error("inputfile is empty");
-	if (database.empty())
-		throw std::runtime_error("database is empty");
 	input.open(file, std::ios::in);
 	if (!input.is_open())
 		throw std::runtime_error("could not open file");
@@ -29,7 +25,11 @@ BitcoinExchange::BitcoinExchange(std::string file, std::string database)
 	if (!db.is_open())
 		throw std::runtime_error("could not open database");
 	this->input = readFile(input, '|');
+	if (this->input.size() == 0)
+		throw std::runtime_error("inputfile is empty");
 	this->db = readFile(db, ',');
+	if (this->db.size() == 0)
+		throw std::runtime_error("database is empty");
 	for (std::multimap<std::string, std::string>::iterator it = this->db.begin(); it != this->db.end(); ++it)
 	{
 		if (!checkDate(it->first))
