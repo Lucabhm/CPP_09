@@ -6,7 +6,7 @@
 /*   By: lbohm <lbohm@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 21:10:49 by lbohm             #+#    #+#             */
-/*   Updated: 2025/02/13 17:06:09 by lbohm            ###   ########.fr       */
+/*   Updated: 2025/03/06 10:51:16 by lbohm            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	RPN::calcRPN(void)
 			{
 				throw;
 			}
-			
 		}
 		else if (std::isdigit(this->input[i]))
 			stack.push(this->input[i] - 48);
